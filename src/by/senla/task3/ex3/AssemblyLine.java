@@ -1,6 +1,6 @@
 package by.senla.task3.ex3;
 
-public class AssemblyLine implements IAssemblyLine{
+public class AssemblyLine implements IAssemblyLine {
     ILineStep step1;
     ILineStep step2;
     ILineStep step3;

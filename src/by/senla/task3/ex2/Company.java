@@ -5,14 +5,13 @@ import java.util.List;
 
 public class Company {
     private final int MAX_STAFF;
-    private String companyName;
     private final List<Employee> employees = new ArrayList<>();
+    private String companyName;
 
     public Company(String companyName, int quantity) {
         this.MAX_STAFF = quantity;
         this.companyName = companyName;
     }
-
 
 
     @Override

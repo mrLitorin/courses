@@ -1,6 +1,6 @@
 package by.senla.task3.ex3;
 
-public class LaptopBody implements IProductPart{
+public class LaptopBody implements IProductPart {
     private String color;
     private String material;
 

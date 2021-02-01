@@ -41,10 +41,10 @@ public class CompanyManagement {
         System.out.println("The company has " + company.getEmployees().size() + " employees.");
     }
 
-    public void calculateMonthlySalary(){
-        List<Employee> employees= company.getEmployees();
+    public void calculateMonthlySalary() {
+        List<Employee> employees = company.getEmployees();
         int totalSalary = 0;
-        for (Employee e: employees ) {
+        for (Employee e : employees) {
             totalSalary += e.getSalary();
         }
         System.out.println("Monthly salary of all employees of the company " + totalSalary + ".");

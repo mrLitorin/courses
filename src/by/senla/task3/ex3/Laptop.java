@@ -1,6 +1,6 @@
 package by.senla.task3.ex3;
 
-public class Laptop implements IProduct{
+public class Laptop implements IProduct {
     IProductPart body;
     IProductPart motherboard;
     IProductPart monitor;

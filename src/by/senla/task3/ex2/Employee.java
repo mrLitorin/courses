@@ -5,15 +5,15 @@ public abstract class Employee {
     private String position;
     private int salary;
 
+    public Employee(int salary) {
+        this.salary = salary;
+        ID = (int) (Math.random() * 100000);
+    }
+
     @Override
     public String toString() {
         return "\nID >> " + getID() + " position: \"" + position + '\"' +
                 ", salary = " + salary + "$";
-    }
-
-    public Employee(int salary) {
-        this.salary = salary;
-        ID = (int) (Math.random() * 100000);
     }
 
     public int getID() {
