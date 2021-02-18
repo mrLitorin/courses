@@ -3,11 +3,13 @@ package by.senla.bookstore.model;
 import by.senla.bookstore.util.GeneratorID;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Book extends AEntity {
     private String title;
     private String author;
-    private int price = 150;
+    private int price = new Random().nextInt(100);
+    private int publicationYear = new Random().nextInt(2021);
     private BookStatus status;
 
     {
@@ -25,25 +27,12 @@ public class Book extends AEntity {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return title.equals(book.title) && author.equals(book.author);
+    public int getPublicationYear() {
+        return publicationYear;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, author, price, status);
-    }
-
-    @Override
-    public String toString() {
-        return "Book #" + this.getId() + " >>> \t" + title + '\'' +
-                "\t'" + author + '\'' +
-                '\t' + price + "$" +
-                '\t' + status;
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
     }
 
     public BookStatus getStatus() {
@@ -76,5 +65,27 @@ public class Book extends AEntity {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return title.equals(book.title) && author.equals(book.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author, price, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Book #" + this.getId() + " >>> \t" + title + '\'' +
+                "\t'" + author + '\'' +
+                "\t " + publicationYear + " year" +
+                '\t' + price + "$" +
+                '\t' + status;
     }
 }

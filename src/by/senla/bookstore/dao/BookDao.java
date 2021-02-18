@@ -3,11 +3,12 @@ package by.senla.bookstore.dao;
 import by.senla.bookstore.api.dao.IBookDao;
 import by.senla.bookstore.model.Book;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookDao extends AbstractDao<Book> implements IBookDao {
     private static final IBookDao bookDao = new BookDao();
-    private final List<Book> books = this.getList();
+    private final List<Book> books = super.getList();
 
     private BookDao() {
     }
@@ -32,5 +33,11 @@ public class BookDao extends AbstractDao<Book> implements IBookDao {
             temp.setPrice(book.getPrice());
         }
         return temp;
+    }
+
+    @Override
+    public List<Book> getList() {
+        List<Book> list = new ArrayList<Book>(books);
+        return list;
     }
 }

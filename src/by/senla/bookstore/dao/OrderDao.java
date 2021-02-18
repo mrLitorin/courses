@@ -3,11 +3,12 @@ package by.senla.bookstore.dao;
 import by.senla.bookstore.api.dao.IOrderDao;
 import by.senla.bookstore.model.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao extends AbstractDao<Order> implements IOrderDao {
     private static final OrderDao orderDao = new OrderDao();
-    private final List<Order> orders = this.getList();
+    private final List<Order> orders = super.getList();
 
     private OrderDao() {
     }
@@ -30,5 +31,11 @@ public class OrderDao extends AbstractDao<Order> implements IOrderDao {
             temp.setClient(order.getClient());
         }
         return temp;
+    }
+
+    @Override
+    public List<Order> getList() {
+        List<Order> list = new ArrayList<Order>(orders);
+        return list;
     }
 }

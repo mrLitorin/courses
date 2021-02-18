@@ -3,11 +3,12 @@ package by.senla.bookstore.dao;
 import by.senla.bookstore.api.dao.IRequestDao;
 import by.senla.bookstore.model.Request;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RequestDao extends AbstractDao<Request> implements IRequestDao {
     private static final IRequestDao requestDao = new RequestDao();
-    private final List<Request> requests = this.getList();
+    private final List<Request> requests = super.getList();
 
     private RequestDao() {
     }
@@ -26,5 +27,11 @@ public class RequestDao extends AbstractDao<Request> implements IRequestDao {
             temp.setMissingBooks(request.getMissingBook());
         }
         return temp;
+    }
+
+    @Override
+    public List<Request> getList() {
+        List<Request> list = new ArrayList<Request>(requests);
+        return list;
     }
 }

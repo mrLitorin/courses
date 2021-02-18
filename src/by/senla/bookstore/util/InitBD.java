@@ -13,7 +13,7 @@ public class InitBD {
         bookDao.save(new Book("Title2", "Author2", BookStatus.ON_SALE));
         bookDao.save(new Book("Title3", "Author3", BookStatus.MISSING));
         bookDao.save(new Book("Title4", "Author4", BookStatus.ON_SALE));
-        bookDao.save(new Book("Title5", "Author5", BookStatus.ON_SALE));
+        bookDao.save(new Book("Title0", "Author0", BookStatus.ON_SALE));
         bookDao.save(new Book("Title6", "Author6", BookStatus.MISSING));
         bookDao.save(new Book("Title7", "Author7", BookStatus.ON_SALE));
         bookDao.save(new Book("Title8", "Author8", BookStatus.ON_SALE));

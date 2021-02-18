@@ -5,20 +5,34 @@ import by.senla.bookstore.util.GeneratorID;
 
 public class Request extends AEntity {
     private Book missingBook;
+    private int quantity;
     private RequestStatus status;
+
+    public Request() {
+    }
 
     {
         this.setId(GeneratorID.generateRequestId());
     }
 
-    public Request() {
-    }
-
-    public Request(Book missingBook) {
+    public Request(Book missingBook, int quantity) {
         if (BookDao.getInstance().getList().contains(missingBook)) {
             this.missingBook = missingBook;
             this.status = RequestStatus.IN_PROCESSING;
+            this.quantity = quantity;
         }
+    }
+
+    public void setMissingBook(Book missingBook) {
+        this.missingBook = missingBook;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
 
@@ -33,6 +47,7 @@ public class Request extends AEntity {
     @Override
     public String toString() {
         return "Request #" + this.getId() + " \n" + missingBook +
+                ", \nquantity: " + quantity +
                 ", \nProgress: " + status + "\n";
     }
 
