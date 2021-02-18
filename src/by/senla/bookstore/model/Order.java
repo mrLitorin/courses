@@ -2,51 +2,48 @@ package by.senla.bookstore.model;
 
 import by.senla.bookstore.util.GeneratorID;
 
-import java.util.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class Order extends AEntity {
-    private final Date date;
+    private LocalDateTime date;
     private List<Book> bookList = new ArrayList<>();
     private Client client;
     private OrderState orderStatus;
+    private int price;
 
     {
         this.setId(GeneratorID.generateOrderId());
     }
 
     public Order() {
-        this.date = new Date();
+        this.date = LocalDateTime.now();
+        this.setId(GeneratorID.generateOrderId());
     }
 
     public Order(Book... books) {
-        this.date = new Date();
+        this.date = LocalDateTime.now();
         this.setId(GeneratorID.generateOrderId());
         bookList.addAll(0, Arrays.asList(books));
     }
 
-    @Override
-    public String toString() {
-        return "Order #" + this.getId() + " >>> " + date +
-                ", \nbooks: " + bookList +
-                ", \nclient: " + client +
-                "\nOrder progress: " + orderStatus + '\n';
+    public int getPrice() {
+        price = 0;
+        bookList.stream()
+                .forEach(book -> price += book.getPrice());
+        return price;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(this.getId(), order.getId());
+    public String getDate() {
+        return date.format(DateTimeFormatter.ofPattern("d MMM uuuu HH:mm:ss"));
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(date, bookList, client, orderStatus);
-    }
-
-    public Date getDate() {
-        return date;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public List<Book> getBookList() {
@@ -71,5 +68,27 @@ public class Order extends AEntity {
 
     public void setOrderStatus(OrderState orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(this.getId(), order.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, bookList, client, orderStatus);
+    }
+
+    @Override
+    public String toString() {
+        return "Order #" + this.getId() + " >>> " + this.getDate() +
+                ", \nbooks: " + bookList +
+                ", \nclient: " + client +
+                "\nOrder progress: " + orderStatus + '\n' +
+                "price: " + this.getPrice() + '\n';
     }
 }
