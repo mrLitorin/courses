@@ -3,6 +3,7 @@ package by.senla.bookstore.api.service;
 import by.senla.bookstore.model.Order;
 import by.senla.bookstore.model.OrderState;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IOrderService {
@@ -20,6 +21,14 @@ public interface IOrderService {
 
     List<Order> sortAll(String sortBy);
 
-    List<Order> completedOrders();
+    List<Order> completedOrders(LocalDateTime from);
 
+    int amountOfIncome(LocalDateTime time);
+
+    int countOrders(LocalDateTime time);
+
+
+    Order getOrderById(long l);
+
+    void showDetails(Order order1);
 }

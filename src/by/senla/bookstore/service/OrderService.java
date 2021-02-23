@@ -1,101 +1,154 @@
 package by.senla.bookstore.service;
 
 import by.senla.bookstore.api.dao.IOrderDao;
+import by.senla.bookstore.api.service.IBookService;
 import by.senla.bookstore.api.service.IOrderService;
 import by.senla.bookstore.api.service.IRequestService;
 import by.senla.bookstore.dao.OrderDao;
 import by.senla.bookstore.model.*;
+import by.senla.bookstore.util.MyRandom;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class OrderService implements IOrderService {
-
     private final IOrderDao orderDao = OrderDao.getInstance();
-    List<Order> list;
+    List<Order> orders;
     IRequestService requestService = new RequestService();
+    IBookService bookService = new BookService();
 
     @Override
-    public List<Order> completedOrders() {
-        list = orderDao.getList();
-        return list.stream()
+    public int countOrders(LocalDateTime time) {
+        return completedOrders(time).size();
+    }
+
+    @Override
+    public int amountOfIncome(LocalDateTime time) {
+        return completedOrders(time).stream()
+                .mapToInt(Order::getPrice)
+                .sum();
+    }
+
+    @Override
+    public List<Order> completedOrders(LocalDateTime from) {
+        System.out.println("FROM >>> " + from.format(DateTimeFormatter.ofPattern("d MMM yyyy HH:mm:ss")));
+        orders = orderDao.getAll();
+        return orders.stream()
                 .filter(order -> order.getOrderStatus().equals(OrderState.COMPLETED))
+                .filter(order -> from.isBefore(order.getDate()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Order> sort(List<Order> list, String sortBy) {
-        switch (sortBy) {
-            case "date":
-                return list.stream()
-                        .sorted((o1, o2) -> o1.getDate().compareTo(o2.getDate()))
-                        .collect(Collectors.toList());
-            case "price":
-                return list.stream()
-                        .sorted((o1, o2) -> o1.getPrice() - o2.getPrice())
-                        .collect(Collectors.toList());
-            case "status":
-                return list.stream()
-                        .sorted((o1, o2) -> o1.getOrderStatus().ordinal() - o2.getOrderStatus().ordinal())
-                        .collect(Collectors.toList());
+        if (!list.isEmpty()) {
+            switch (sortBy) {
+                case "date":
+                    return list.stream()
+                            .sorted(Comparator.comparing(Order::getDate))
+                            .collect(Collectors.toList());
+                case "price":
+                    return list.stream()
+                            .sorted(Comparator.comparingInt(Order::getPrice))
+                            .collect(Collectors.toList());
+                case "status":
+                    return list.stream()
+                            .sorted(Comparator.comparingInt(o -> o.getOrderStatus().ordinal()))
+                            .collect(Collectors.toList());
+                default:
+                    System.out.println("Invalid input");
+            }
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public List<Order> sortAll(String sortBy) {
-        this.list = orderDao.getList();
-        return this.sort(list, sortBy);
+        this.orders = orderDao.getAll();
+        return this.sort(orders, sortBy);
     }
 
     @Override
     public void create(Order order) {
         order.setOrderStatus(OrderState.HOT);
         orderDao.save(order);
-        for (Book b : order.getBookList()) {
+        Map<Book, Integer> map = order.getBookMap();
+        for (Book b : map.keySet()) {
             if (b.getStatus() == BookStatus.MISSING) {
-                Request request = new Request();
-                request.setMissingBooks(b);
-                request.setQuantity(1);
-                requestService.sentRequest(request);
+                requestService.sentRequest(new Request(b, map.get(b)));
+            } else if (b.getQuantity() - map.get(b) < 0) {
+                int dif = map.get(b) - b.getQuantity();
+                requestService.sentRequest(new Request(b, dif));
+                bookService.writeOff(b);
+            } else {
+                b.setQuantity(b.getQuantity() - map.get(b));
             }
         }
     }
 
     @Override
-    public void cancel(Order order) {
-        list = orderDao.getList();
-        if (list.contains(order)) {
-            Order o = list.get(list.indexOf(order));
-            o.setOrderStatus(OrderState.CANCELED);
-            o.setDate(LocalDateTime.now().plusSeconds(10L));
+    public void showDetails(Order order) {
+        orders = orderDao.getAll();
+        if (orders.contains(order)) {
+            System.out.println(order);
+        }
+    }
 
+    @Override
+    public Order getOrderById(long id) {
+        return orderDao.getById(id);
+    }
+
+    @Override
+    public void cancel(Order order) {
+        orders = orderDao.getAll();
+        if (orders.contains(order)) {
+            order.setOrderStatus(OrderState.CANCELED);
+            order.setDate(MyRandom.getDateChangedOrder());
+            Map<Book, Integer> map = order.getBookMap();
+            for (Book b : map.keySet()) {
+                int res = b.getQuantity();
+                b.setQuantity(res + map.get(b));
+            }
         }
     }
 
     @Override
     public void changeStatus(Order order, OrderState state) {
-        list = orderDao.getList();
-        if (list.contains(order)) {
-            Order o = list.get(list.indexOf(order));
-            o.setOrderStatus(state);
-            o.setDate(LocalDateTime.now().plusSeconds(3l));
+        orders = orderDao.getAll();
+        if (orders.contains(order)) {
+            order.setOrderStatus(state);
+            order.setDate(MyRandom.getDateChangedOrder());
+        }
+        if (orders.contains(order) && state == OrderState.COMPLETED) {
+            Map<Book, Integer> map = order.getBookMap();
+            for (Book b : map.keySet()) {
+                b.setDateOfLastSale(LocalDateTime.now());
+            }
         }
     }
 
     @Override
     public void printAllOrders() {
-        list = orderDao.getList();
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<ALL ORDERS>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        orderDao.getList().forEach(System.out::println);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<END>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+        orders = orderDao.getAll();
+        System.out.println("######################## ALL ORDERS #######################");
+        if (!orders.isEmpty()) {
+            orderDao.getAll().forEach(System.out::println);
+        }
+        System.out.print("###########################################################\n");
     }
 
     @Override
-    public void printOrders(List<Order> list) {
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<ORDERS>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        list.forEach(System.out::println);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<END>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+    public void printOrders(List<Order> orders) {
+        System.out.println("####################### ORDERS ############################");
+        if (!orders.isEmpty()) {
+            orders.forEach(System.out::println);
+        }
+        System.out.print("###########################################################\n");
     }
 }

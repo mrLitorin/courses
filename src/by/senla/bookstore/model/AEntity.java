@@ -1,6 +1,7 @@
 package by.senla.bookstore.model;
 
 public abstract class AEntity {
+
     private Long id;
 
     public Long getId() {

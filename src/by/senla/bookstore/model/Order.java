@@ -1,57 +1,54 @@
 package by.senla.bookstore.model;
 
 import by.senla.bookstore.util.GeneratorID;
+import by.senla.bookstore.util.MyRandom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Order extends AEntity {
     private LocalDateTime date;
-    private List<Book> bookList = new ArrayList<>();
+    private Map<Book, Integer> bookMap = new HashMap<>();
     private Client client;
     private OrderState orderStatus;
     private int price;
 
     {
+        this.date = MyRandom.getDateOrder();
         this.setId(GeneratorID.generateOrderId());
+        this.setOrderStatus(OrderState.HOT);
     }
 
     public Order() {
-        this.date = LocalDateTime.now();
-        this.setId(GeneratorID.generateOrderId());
     }
 
-    public Order(Book... books) {
-        this.date = LocalDateTime.now();
-        this.setId(GeneratorID.generateOrderId());
-        bookList.addAll(0, Arrays.asList(books));
+    public Order(Book book, Integer quantity) {
+        bookMap.put(book, quantity);
     }
 
     public int getPrice() {
         price = 0;
-        bookList.stream()
-                .forEach(book -> price += book.getPrice());
+        bookMap.forEach((book, quantity) -> price += book.getPrice() * quantity);
         return price;
     }
 
-    public String getDate() {
-        return date.format(DateTimeFormatter.ofPattern("d MMM uuuu HH:mm:ss"));
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Map<Book, Integer> getBookMap() {
+        return bookMap;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBookMap(Map<Book, Integer> bookMap) {
+        this.bookMap = bookMap;
     }
 
     public Client getClient() {
@@ -80,15 +77,16 @@ public class Order extends AEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, bookList, client, orderStatus);
+        return Objects.hash(date, bookMap, client, orderStatus);
     }
 
     @Override
     public String toString() {
-        return "Order #" + this.getId() + " >>> " + this.getDate() +
-                ", \nbooks: " + bookList +
+        String df = getDate().format(DateTimeFormatter.ofPattern("d MMM yyyy HH:mm:ss"));
+        return "Order #" + this.getId() + ": " + df +
+                ", \nbooks: " + bookMap +
                 ", \nclient: " + client +
                 "\nOrder progress: " + orderStatus + '\n' +
-                "price: " + this.getPrice() + '\n';
+                "price: " + this.getPrice() + "$\n";
     }
 }

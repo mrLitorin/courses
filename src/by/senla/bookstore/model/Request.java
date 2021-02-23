@@ -3,6 +3,8 @@ package by.senla.bookstore.model;
 import by.senla.bookstore.dao.BookDao;
 import by.senla.bookstore.util.GeneratorID;
 
+import java.util.Objects;
+
 public class Request extends AEntity {
     private Book missingBook;
     private int quantity;
@@ -16,7 +18,7 @@ public class Request extends AEntity {
     }
 
     public Request(Book missingBook, int quantity) {
-        if (BookDao.getInstance().getList().contains(missingBook)) {
+        if (BookDao.getInstance().getAll().contains(missingBook)) {
             this.missingBook = missingBook;
             this.status = RequestStatus.IN_PROCESSING;
             this.quantity = quantity;
@@ -43,13 +45,6 @@ public class Request extends AEntity {
         this.missingBook = missingBook;
     }
 
-    @Override
-    public String toString() {
-        return "Request #" + this.getId() + " \n" + missingBook +
-                ", \nquantity: " + quantity +
-                ", \nProgress: " + status + "\n";
-    }
-
     public RequestStatus getStatus() {
         return status;
     }
@@ -57,4 +52,26 @@ public class Request extends AEntity {
     public void setStatus(RequestStatus status) {
         this.status = status;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request request = (Request) o;
+        return quantity == request.quantity && missingBook.equals(request.missingBook);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(missingBook, quantity, status);
+    }
+
+    @Override
+    public String toString() {
+        return "Request #" + this.getId() + " \n" + missingBook +
+                ", \nquantity: " + quantity +
+                ", \nProgress: " + status + "\n";
+    }
+
+
 }

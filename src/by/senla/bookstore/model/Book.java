@@ -1,30 +1,59 @@
 package by.senla.bookstore.model;
 
 import by.senla.bookstore.util.GeneratorID;
+import by.senla.bookstore.util.MyRandom;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.Random;
 
 public class Book extends AEntity {
     private String title;
     private String author;
-    private int price = new Random().nextInt(100);
-    private int publicationYear = new Random().nextInt(2021);
+    private int publicationYear = MyRandom.getPublicationYear();
+    private int price = MyRandom.getPriceOfBook();
+    private int quantity;
     private BookStatus status;
+    private LocalDateTime dateOfLastSale;
+    private String description;
 
     {
         this.setId(GeneratorID.generateBookId());
     }
 
-    public Book(String title, String author) {
+    public Book(String title, String author, int quantity) {
         this.title = title;
         this.author = author;
+        this.quantity = quantity;
     }
 
-    public Book(String title, String author, BookStatus status) {
-        this.title = title;
-        this.author = author;
-        this.status = status;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getDateOfLastSale() {
+        return dateOfLastSale;
+    }
+
+    public void setDateOfLastSale(LocalDateTime dateOfLastSale) {
+        this.dateOfLastSale = dateOfLastSale;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity >= 0) {
+            this.quantity = quantity;
+        } else {
+            System.out.println("Invalid input");
+        }
     }
 
     public int getPublicationYear() {
@@ -82,10 +111,14 @@ public class Book extends AEntity {
 
     @Override
     public String toString() {
-        return "Book #" + this.getId() + " >>> \t" + title + '\'' +
+        String df = dateOfLastSale.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss"));
+
+        return "Book #" + this.getId() + " " + title + '\'' +
                 "\t'" + author + '\'' +
-                "\t " + publicationYear + " year" +
+                "\t " + publicationYear + "year" +
                 '\t' + price + "$" +
-                '\t' + status;
+                '\t' + quantity + "pcs" +
+                '\t' + status
+                + "\t Last sale >> " + df;
     }
 }

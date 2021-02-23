@@ -15,17 +15,18 @@ public abstract class AbstractDao<T extends AEntity> implements GenericDAO<T> {
     }
 
     @Override
+    public List<T> getAll() {
+        if (repository.isEmpty()) return new ArrayList<>();
+        return new ArrayList<>(repository);
+    }
+
+    @Override
     public void delete(T entity) {
         repository.remove(entity);
     }
 
     @Override
-    public List<T> getList() {
-        return repository;
-    }
-
-    @Override
-    public T getByID(Long id) {
+    public T getById(Long id) {
         for (T entity : repository) {
             if (id.equals(entity.getId())) {
                 return entity;

@@ -4,10 +4,10 @@ import by.senla.bookstore.api.dao.IBookDao;
 import by.senla.bookstore.api.service.IRequestService;
 import by.senla.bookstore.dao.BookDao;
 import by.senla.bookstore.dao.RequestDao;
-import by.senla.bookstore.model.BookStatus;
 import by.senla.bookstore.model.Request;
 import by.senla.bookstore.model.RequestStatus;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,47 +23,39 @@ public class RequestService implements IRequestService {
 
     @Override
     public void printAllRequest() {
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<ALL REQUEST<<<<<<<<<<<<<<>>>>>>>>>>>>");
-        requestDao.getList().forEach(System.out::println);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<END<<<<<<<<<<<<<<>>>>>>>>>>>>>>>\n");
+        System.out.println("####################### ALL REQUESTS #####################");
+        requestDao.getAll().forEach(System.out::println);
+        System.out.println("###########################################################\n");
     }
 
     @Override
     public void printRequest(List<Request> requests) {
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<ALL REQUEST<<<<<<<<<<<<<<>>>>>>>>>>>>");
+        System.out.println("####################### REQUESTS ##########################");
         requests.forEach(System.out::println);
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<END<<<<<<<<<<<<<<>>>>>>>>>>>>>>>\n");
-    }
-
-    @Override
-    public void addAllBooksOnSale() {
-        for (Request request : requestDao.getList()) {
-            request.getMissingBook().setStatus(BookStatus.ON_SALE);
-            bookDao.update(request.getMissingBook());
-            request.setStatus(RequestStatus.COMPLETED);
-        }
+        System.out.print("###########################################################\n");
     }
 
     @Override
     public List<Request> sortAll(String sortBy) {
-        List<Request> requests = requestDao.getList();
+        List<Request> requests = requestDao.getAll();
         return this.sort(requests, sortBy);
     }
 
     @Override
-    public List<Request> sort(List<Request> list, String sortBy) {
-        List<Request> requests = list;
+    public List<Request> sort(List<Request> requests, String sortBy) {
         switch (sortBy) {
             case "quantity":
                 return requests.stream()
-                        .sorted((o1, o2) -> o1.getQuantity() - o2.getQuantity())
+                        .sorted(Comparator.comparingInt(Request::getQuantity))
                         .collect(Collectors.toList());
 
-            case "abc":
+            case "title":
                 return requests.stream()
-                        .sorted((o1, o2) -> o1.getMissingBook().getTitle().compareTo(o2.getMissingBook().getTitle()))
+                        .sorted(Comparator.comparing(o -> o.getMissingBook().getTitle()))
                         .collect(Collectors.toList());
+            default:
+                System.out.println("Invalid input >> " + sortBy);
         }
-        return list;
+        return requests;
     }
 }

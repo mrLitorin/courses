@@ -5,13 +5,12 @@ import by.senla.bookstore.model.Request;
 import java.util.List;
 
 public interface IRequestService {
+
     void sentRequest(Request request);
 
     void printAllRequest();
 
     void printRequest(List<Request> requests);
-
-    void addAllBooksOnSale();
 
     List<Request> sortAll(String sortBy);
 

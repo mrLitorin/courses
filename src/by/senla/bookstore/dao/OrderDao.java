@@ -8,7 +8,6 @@ import java.util.List;
 
 public class OrderDao extends AbstractDao<Order> implements IOrderDao {
     private static final OrderDao orderDao = new OrderDao();
-    private final List<Order> orders = super.getList();
 
     private OrderDao() {
     }
@@ -18,11 +17,12 @@ public class OrderDao extends AbstractDao<Order> implements IOrderDao {
     }
 
     public List<Order> getOrders() {
-        return orders;
+        return new ArrayList<>(orderDao.getAll());
     }
 
     @Override
     public Order update(Order order) {
+        List<Order> orders = orderDao.getAll();
         Order temp = null;
         if (orders.contains(order)) {
             temp = orders.get(orders.indexOf(order));
@@ -31,11 +31,5 @@ public class OrderDao extends AbstractDao<Order> implements IOrderDao {
             temp.setClient(order.getClient());
         }
         return temp;
-    }
-
-    @Override
-    public List<Order> getList() {
-        List<Order> list = new ArrayList<Order>(orders);
-        return list;
     }
 }
