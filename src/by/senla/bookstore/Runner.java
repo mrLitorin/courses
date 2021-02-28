@@ -19,9 +19,9 @@ import java.util.List;
 public class Runner {
     public static void main(String[] args) {
         InitBD initBD = new InitBD();
-        IBookService bookService = new BookService();
-        IOrderService orderService = new OrderService();
-        IRequestService requestService = new RequestService();
+        IBookService bookService = BookService.getInstance();
+        IOrderService orderService = OrderService.getInstance();
+        IRequestService requestService = RequestService.getInstance();
         IBookDao bookDao = BookDao.getInstance();
         IOrderDao orderDao = OrderDao.getInstance();
 

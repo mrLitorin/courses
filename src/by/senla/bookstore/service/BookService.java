@@ -14,12 +14,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class BookService implements IBookService {
+    private static BookService instance;
     private final IBookDao bookDao = BookDao.getInstance();
     private final IRequestDao requestDao = RequestDao.getInstance();
     private List<Book> books;
+
+    private BookService() {
+    }
+
+    public static BookService getInstance() {
+        return Objects.requireNonNullElse(instance, new BookService());
+    }
 
     @Override
     public List<Book> sort(List<Book> list, String sortBy) {
@@ -63,7 +72,6 @@ public class BookService implements IBookService {
             System.out.println(book);
             System.out.println(book.getDescription());
         }
-
     }
 
     @Override
@@ -73,32 +81,40 @@ public class BookService implements IBookService {
 
     @Override
     public void addBookOnStock(Book book) {
-        List<Request> requests = requestDao.getAll();
-        List<Request> requestsFiltered;
-        int count = 0;
+        if (book != null) {
+            List<Request> requests = requestDao.getAll();
+            List<Request> requestsFiltered;
+            int count = 0;
 
-        requestsFiltered = requests.stream().filter(request -> request.getMissingBook().equals(book)
-                && request.getStatus().equals(RequestStatus.IN_PROCESSING))
-                .collect(Collectors.toList());
-        for (Request r : requestsFiltered) {
-            r.setStatus(RequestStatus.COMPLETED);
-            count += r.getQuantity();
+            requestsFiltered = requests.stream().filter(request -> request.getMissingBook().equals(book)
+                    && request.getStatus().equals(RequestStatus.IN_PROCESSING))
+                    .collect(Collectors.toList());
+            for (Request r : requestsFiltered) {
+                r.setStatus(RequestStatus.COMPLETED);
+                count += r.getQuantity();
+            }
+            book.setQuantity(count);
+        } else {
+            System.out.print("Book not exist.");
         }
-        book.setQuantity(count);
     }
 
     @Override
     public List<Book> sortAll(String sortBy) {
-        books = new ArrayList<>(books);
-        return this.sort(books, sortBy);
+        List<Book> booksForSorting = new ArrayList<>(bookDao.getAll());
+        return this.sort(booksForSorting, sortBy);
     }
 
     @Override
     public void writeOff(Book book) {
-        books = bookDao.getAll();
+        books = bookDao.getAll().stream()
+                .filter(book1 -> book.getStatus() != BookStatus.MISSING)
+                .collect(Collectors.toList());
         if (book != null && books.contains(book)) {
             book.setQuantity(0);
             book.setStatus(BookStatus.MISSING);
+        } else {
+            System.out.println("The book is missing or does not exist.");
         }
     }
 

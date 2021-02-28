@@ -9,11 +9,20 @@ import by.senla.bookstore.model.RequestStatus;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RequestService implements IRequestService {
+    private static RequestService instance;
     private final RequestDao requestDao = (RequestDao) RequestDao.getInstance();
     private final IBookDao bookDao = BookDao.getInstance();
+
+    private RequestService() {
+    }
+
+    public static RequestService getInstance() {
+        return Objects.requireNonNullElse(instance, new RequestService());
+    }
 
     @Override
     public void sentRequest(Request request) {

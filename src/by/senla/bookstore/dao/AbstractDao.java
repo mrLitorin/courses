@@ -32,6 +32,7 @@ public abstract class AbstractDao<T extends AEntity> implements GenericDAO<T> {
                 return entity;
             }
         }
+        System.out.println("ERROR: ID #" + id + " not found. ");
         return null;
     }
 }
