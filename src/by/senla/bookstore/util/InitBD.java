@@ -20,10 +20,12 @@ public class InitBD {
         bookDao.save(new Book("Title8", "Author8", 7));// 100007
         bookDao.save(new Book("Title9", "Author9", 0));// 100008 MISSING
 
+
         //рандомное время для книг
         bookDao.getAll()
                 .forEach(book -> book.setDateOfLastSale(MyRandom.getDateOfLastSale()));
+        //о книге
         bookDao.getAll()
-                .forEach(book -> book.setDescription("About the book....."));
+                .forEach(book -> book.setDescription("About the book.....bla bla"));
     }
 }

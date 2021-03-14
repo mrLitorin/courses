@@ -1,9 +1,10 @@
 package by.senla.bookstore.service;
 
-import by.senla.bookstore.api.dao.IBookDao;
+import by.senla.bookstore.api.dao.IRequestDao;
 import by.senla.bookstore.api.service.IRequestService;
-import by.senla.bookstore.dao.BookDao;
 import by.senla.bookstore.dao.RequestDao;
+import by.senla.bookstore.model.Book;
+import by.senla.bookstore.model.BookStatus;
 import by.senla.bookstore.model.Request;
 import by.senla.bookstore.model.RequestStatus;
 
@@ -14,8 +15,7 @@ import java.util.stream.Collectors;
 
 public class RequestService implements IRequestService {
     private static RequestService instance;
-    private final RequestDao requestDao = (RequestDao) RequestDao.getInstance();
-    private final IBookDao bookDao = BookDao.getInstance();
+    private final IRequestDao requestDao = RequestDao.getInstance();
 
     private RequestService() {
     }
@@ -25,29 +25,14 @@ public class RequestService implements IRequestService {
     }
 
     @Override
-    public void sentRequest(Request request) {
+    public void createRequest(Request request) {
         request.setStatus(RequestStatus.IN_PROCESSING);
         requestDao.save(request);
     }
 
     @Override
-    public void printAllRequest() {
-        System.out.println("####################### ALL REQUESTS #####################");
-        requestDao.getAll().forEach(System.out::println);
-        System.out.println("###########################################################\n");
-    }
-
-    @Override
-    public void printRequest(List<Request> requests) {
-        System.out.println("####################### REQUESTS ##########################");
-        requests.forEach(System.out::println);
-        System.out.print("###########################################################\n");
-    }
-
-    @Override
-    public List<Request> sortAll(String sortBy) {
-        List<Request> requests = requestDao.getAll();
-        return this.sort(requests, sortBy);
+    public List<Request> getRequests() {
+        return requestDao.getAll();
     }
 
     @Override
@@ -66,5 +51,27 @@ public class RequestService implements IRequestService {
                 System.out.println("Invalid input >> " + sortBy);
         }
         return requests;
+    }
+
+    @Override
+    public void addBookOnStock(Book book) {
+        List<Request> requestsInProcessing = requestDao.getAll().stream()
+                .filter(request -> request.getStatus() == RequestStatus.IN_PROCESSING)
+                .filter(request -> request.getMissingBook().equals(book))
+                .collect(Collectors.toList());
+        if (book != null && requestsInProcessing != null) {
+            requestsInProcessing.forEach(r -> {
+                r.setStatus(RequestStatus.COMPLETED);
+                book.setQuantity(r.getQuantity());
+                book.setStatus(BookStatus.ON_SALE);
+            });
+        } else {
+            System.out.print("No requests for this book.");
+        }
+    }
+
+    @Override
+    public Request getRequestById(long id) {
+        return requestDao.getById(id);
     }
 }

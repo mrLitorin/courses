@@ -4,14 +4,16 @@ import by.senla.bookstore.api.dao.IBookDao;
 import by.senla.bookstore.model.Book;
 import by.senla.bookstore.model.BookStatus;
 
+import java.util.Objects;
+
 public class BookDao extends AbstractDao<Book> implements IBookDao {
-    private static final IBookDao bookDao = new BookDao();
+    private static final BookDao instance = getInstance();
 
     private BookDao() {
     }
 
-    public static IBookDao getInstance() {
-        return bookDao;
+    public static BookDao getInstance() {
+        return Objects.requireNonNullElse(instance, new BookDao());
     }
 
     @Override
@@ -22,16 +24,5 @@ public class BookDao extends AbstractDao<Book> implements IBookDao {
         } else {
             book.setStatus(BookStatus.ON_SALE);
         }
-    }
-
-    @Override
-    public Book update(Book book) {
-//        Book temp = null;
-//        if (books.contains(book)) {
-//            temp = books.get(books.indexOf(book));
-//            temp.setStatus(book.getStatus());
-//            temp.setPrice(book.getPrice());
-//        }
-        return null;//temp;
     }
 }

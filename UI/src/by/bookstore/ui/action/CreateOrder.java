@@ -16,7 +16,7 @@ public class CreateOrder extends AbstractAction implements IAction {
     public void execute() {
         long idBook;
         int quantity;
-        facade.printAllBook();
+        facade.showBooks();
         System.out.print("Choose a book for order >> ");
         while (!sc.hasNextLong()) {
             sc.next();

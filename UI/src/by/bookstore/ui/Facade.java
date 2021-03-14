@@ -1,14 +1,12 @@
 package by.bookstore.ui;
 
-import by.senla.bookstore.model.Book;
-import by.senla.bookstore.model.Order;
-import by.senla.bookstore.model.OrderState;
-import by.senla.bookstore.model.Request;
+import by.senla.bookstore.model.*;
 import by.senla.bookstore.service.BookService;
 import by.senla.bookstore.service.OrderService;
 import by.senla.bookstore.service.RequestService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 public class Facade {
@@ -43,36 +41,35 @@ public class Facade {
 
 
     public void addBookOnStock(long idBook) {
-        bookService.addBookOnStock(bookService.getBookById(idBook));
+        requestService.addBookOnStock(bookService.getBookById(idBook));
     }
 
-    public void printAllRequest() {
-        requestService.printAllRequest();
+    public void showRequests() {
+        print(requestService.getRequests());
     }
 
-    public void printAllOrder() {
-        orderService.printAllOrders();
+    public void showOrders() {
+        print(orderService.getOrders());
     }
 
-    public void printAllBook() {
-        bookService.printAllBook();
+    public void showBooks() {
+        print(bookService.getBooks());
     }
 
     public void changeOrderStatus(long idOrder, int type) {
         Order order = orderService.getOrderById(idOrder);
         OrderState state = switch (type) {
-            case 1 -> OrderState.HOT;
             case 2 -> OrderState.COMPLETED;
             case 3 -> OrderState.CANCELED;
-            default -> null;
+            default -> OrderState.HOT;
         };
         orderService.changeStatus(order, state);
     }
 
-    public void sentRequest(long id, int quantity) {
+    public void createRequest(long id, int quantity) {
         Book book = bookService.getBookById(id);
         Request request = new Request(book, quantity);
-        requestService.sentRequest(request);
+        requestService.createRequest(request);
     }
 
     public void sortAllBook(int sortBy) {
@@ -82,7 +79,7 @@ public class Facade {
             case 4 -> "status";
             default -> "title";
         };
-        bookService.printBooks(bookService.sortAll(type));
+        print(bookService.sort(bookService.getBooks(), type));
     }
 
     public void sortAllOrder(int sortBy) {
@@ -91,7 +88,7 @@ public class Facade {
             case 3 -> "status";
             default -> "date";
         };
-        orderService.printOrders(orderService.sortAll(type));
+        print(orderService.sort(orderService.getOrders(), type));
     }
 
     public void sortAllRequest(int sortBy) {
@@ -99,16 +96,15 @@ public class Facade {
             case 2 -> "quantity";
             default -> "title";
         };
-        requestService.printRequest(requestService.sortAll(type));
+        print(requestService.sort(requestService.getRequests(), type));
     }
 
     public void amountOfIncome(LocalDateTime date) {
         System.out.println(orderService.amountOfIncome(date));
-
     }
 
-    public void unpopularBooks() {
-        bookService.printBooks(bookService.unpopularBooks());
+    public void showUnpopularBooks() {
+        print(bookService.unpopularBooks());
     }
 
     public void showOrderDetails(long id) {
@@ -116,6 +112,31 @@ public class Facade {
     }
 
     public void showBookDescription(long id) {
-        bookService.showDescription(bookService.getBookById(id));
+        Book b = bookService.getBookById(id);
+        System.out.println(b);
+    }
+
+    public void print(List list) {
+        String name;
+        if (list == null || list.isEmpty()) {
+            name = "List is empty.";
+        } else {
+            name = list.get(0).getClass().getSimpleName();
+        }
+        System.out.println("######################## " + name + " ############################");
+        assert list != null;
+        list.forEach(System.out::println);
+        System.out.print("############################################################\n");
+    }
+
+    public void ShowBookRequests() {
+        requestService.getRequests().stream()
+                .filter(r -> r.getStatus() == RequestStatus.IN_PROCESSING)
+                .forEach(r -> System.out.println(r.getMissingBook()));
     }
 }
+
+
+
+
+

@@ -6,22 +6,13 @@ import java.util.List;
 
 public interface IBookService {
 
-    void writeOff(Book book);
-
-    void printAllBook();
-
-    void printBooks(List<Book> list);
+    List<Book> getBooks();
 
     List<Book> sort(List<Book> list, String sortBy);
 
-    List<Book> sortAll(String sortBy);
+    List<Book> unpopularBooks();
 
     Book getBookById(long Id);
 
-    void addBookOnStock(Book book);
-
-    List<Book> unpopularBooks();
-
-    void showDescription(Book bookById);
-
+    void writeOff(Book book);
 }

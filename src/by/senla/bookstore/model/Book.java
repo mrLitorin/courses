@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Book extends AEntity {
+    private long id;
     private String title;
     private String author;
     private int publicationYear = MyRandom.getPublicationYear();
@@ -27,6 +28,15 @@ public class Book extends AEntity {
         this.quantity = quantity;
     }
 
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

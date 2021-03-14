@@ -2,20 +2,20 @@ package by.bookstore.ui.action;
 
 import java.util.Objects;
 
-public class ShowDetails extends AbstractAction implements IAction {
-    private static ShowDetails instance;
+public class ShowOrderDetails extends AbstractAction implements IAction {
+    private static ShowOrderDetails instance;
 
-    private ShowDetails() {
+    private ShowOrderDetails() {
     }
 
     public static IAction getInstance() {
-        return Objects.requireNonNullElse(instance, new ShowDetails());
+        return Objects.requireNonNullElse(instance, new ShowOrderDetails());
     }
 
     @Override
     public void execute() {
         long idOrder;
-        facade.printAllOrder();
+        facade.showOrders();
         System.out.print("Select order to cancel (ID)>> ");
         while (!sc.hasNextLong()) {
             sc.next();

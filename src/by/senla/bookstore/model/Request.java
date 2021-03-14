@@ -6,6 +6,7 @@ import by.senla.bookstore.util.GeneratorID;
 import java.util.Objects;
 
 public class Request extends AEntity {
+    private long id;
     private Book missingBook;
     private int quantity;
     private RequestStatus status;
@@ -23,6 +24,16 @@ public class Request extends AEntity {
             this.status = RequestStatus.IN_PROCESSING;
             this.quantity = quantity;
         }
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getQuantity() {

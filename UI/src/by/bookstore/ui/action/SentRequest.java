@@ -16,11 +16,11 @@ public class SentRequest extends AbstractAction implements IAction {
     public void execute() {
         long id = inputID();
         int quantity = inputQuantity();
-        facade.sentRequest(id, quantity);
+        facade.createRequest(id, quantity);
     }
 
     private long inputID() {
-        facade.printAllBook();
+        facade.showBooks();
         System.out.print("select book for request (ID) >>> ");
         while (!sc.hasNextLong()) {
             sc.next();

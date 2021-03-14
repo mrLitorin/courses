@@ -20,7 +20,7 @@ public class ShowBookDescription extends AbstractAction implements IAction {
 
 
     private long inputIdBook() {
-        facade.printAllBook();
+        facade.showBooks();
         System.out.print("Choose a book by ID or 0 for exit >> ");
         while (!sc.hasNextLong()) {
             sc.next();

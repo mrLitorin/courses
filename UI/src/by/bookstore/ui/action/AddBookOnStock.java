@@ -14,7 +14,7 @@ public class AddBookOnStock extends AbstractAction implements IAction {
 
     @Override
     public void execute() {
-        facade.printAllBook();
+        facade.ShowBookRequests();
         System.out.print("Input ID book >> ");
         while (!sc.hasNextLong()) {
             sc.next();

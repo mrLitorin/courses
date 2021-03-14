@@ -15,7 +15,7 @@ public class CancelOrder extends AbstractAction implements IAction {
     @Override
     public void execute() {
         long idOrder;
-        facade.printAllOrder();
+        facade.showOrders();
         System.out.print("Select order to cancel (ID)>> ");
         while (!sc.hasNextLong()) {
             sc.next();

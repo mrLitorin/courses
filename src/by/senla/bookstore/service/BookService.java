@@ -7,8 +7,6 @@ import by.senla.bookstore.dao.BookDao;
 import by.senla.bookstore.dao.RequestDao;
 import by.senla.bookstore.model.Book;
 import by.senla.bookstore.model.BookStatus;
-import by.senla.bookstore.model.Request;
-import by.senla.bookstore.model.RequestStatus;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -57,6 +55,11 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public List<Book> getBooks() {
+        return bookDao.getAll();
+    }
+
+    @Override
     public List<Book> unpopularBooks() {
         books = bookDao.getAll();
         LocalDateTime halfYears = LocalDateTime.now().minusMonths(6);
@@ -66,43 +69,8 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void showDescription(Book book) {
-        books = bookDao.getAll();
-        if (books.contains(book)) {
-            System.out.println(book);
-            System.out.println(book.getDescription());
-        }
-    }
-
-    @Override
     public Book getBookById(long Id) {
         return bookDao.getById(Id);
-    }
-
-    @Override
-    public void addBookOnStock(Book book) {
-        if (book != null) {
-            List<Request> requests = requestDao.getAll();
-            List<Request> requestsFiltered;
-            int count = 0;
-
-            requestsFiltered = requests.stream().filter(request -> request.getMissingBook().equals(book)
-                    && request.getStatus().equals(RequestStatus.IN_PROCESSING))
-                    .collect(Collectors.toList());
-            for (Request r : requestsFiltered) {
-                r.setStatus(RequestStatus.COMPLETED);
-                count += r.getQuantity();
-            }
-            book.setQuantity(count);
-        } else {
-            System.out.print("Book not exist.");
-        }
-    }
-
-    @Override
-    public List<Book> sortAll(String sortBy) {
-        List<Book> booksForSorting = new ArrayList<>(bookDao.getAll());
-        return this.sort(booksForSorting, sortBy);
     }
 
     @Override
@@ -116,21 +84,5 @@ public class BookService implements IBookService {
         } else {
             System.out.println("The book is missing or does not exist.");
         }
-    }
-
-    @Override
-    public void printAllBook() {
-        books = bookDao.getAll();
-        System.out.println("####################### ALL BOOKS ##########################");
-        bookDao.getAll().forEach(System.out::println);
-        System.out.print("###########################################################\n");
-    }
-
-    @Override
-    public void printBooks(List<Book> list) {
-        System.out.println("######################## BOOKS ############################");
-        list.forEach(System.out::println);
-        System.out.print("############################################################\n");
-
     }
 }

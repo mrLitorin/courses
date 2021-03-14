@@ -5,15 +5,15 @@ import by.senla.bookstore.util.MyRandom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class Order extends AEntity {
+    private long id;
     private LocalDateTime date;
-    private Map<Book, Integer> bookMap = new HashMap<>();
+    private Book orderedBook;
     private Client client;
     private OrderState orderStatus;
+    private int quantity;
     private int price;
 
     {
@@ -25,13 +25,29 @@ public class Order extends AEntity {
     public Order() {
     }
 
-    public Order(Book book, Integer quantity) {
-        bookMap.put(book, quantity);
+    public Order(Book orderedBook, int quantity) {
+        this.orderedBook = orderedBook;
+        this.quantity = quantity;
+    }
+
+    public Order(Book orderedBook, int quantity, Client client) {
+        this.orderedBook = orderedBook;
+        this.quantity = quantity;
+        this.client = client;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getPrice() {
-        price = 0;
-        bookMap.forEach((book, quantity) -> price += book.getPrice() * quantity);
+        price = orderedBook.getPrice() * quantity;
         return price;
     }
 
@@ -43,12 +59,12 @@ public class Order extends AEntity {
         this.date = date;
     }
 
-    public Map<Book, Integer> getBookMap() {
-        return bookMap;
+    public Book getOrderedBook() {
+        return orderedBook;
     }
 
-    public void setBookMap(Map<Book, Integer> bookMap) {
-        this.bookMap = bookMap;
+    public void setOrderedBook(Book book) {
+        this.orderedBook = book;
     }
 
     public Client getClient() {
@@ -77,16 +93,20 @@ public class Order extends AEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, bookMap, client, orderStatus);
+        return Objects.hash(date, orderedBook, client, orderStatus);
     }
 
     @Override
     public String toString() {
         String df = getDate().format(DateTimeFormatter.ofPattern("d MMM yyyy HH:mm:ss"));
         return "Order #" + this.getId() + ": " + df +
-                ", \nbooks: " + bookMap +
+                ", \nbooks: " + orderedBook +
                 ", \nclient: " + client +
                 "\nOrder progress: " + orderStatus + '\n' +
                 "price: " + this.getPrice() + "$\n";
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 }

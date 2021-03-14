@@ -49,40 +49,40 @@ public class Runner {
         orderService.changeStatus(order1, OrderState.COMPLETED);
         orderService.changeStatus(order3, OrderState.COMPLETED);
         //добавить на склад
-        bookService.addBookOnStock(bookService.getBookById(100002L));
+        requestService.addBookOnStock(bookService.getBookById(100002L));
         //Оставить запрос на книгу
-        requestService.sentRequest(new Request(bookService.getBookById(100008), 3));
-        requestService.sentRequest(new Request(bookService.getBookById(100007), 2));
+        requestService.createRequest(new Request(bookService.getBookById(100008), 3));
+        requestService.createRequest(new Request(bookService.getBookById(100007), 2));
 
 
-        bookService.printAllBook();                                                 // ВЫВОД КНИГ
-        requestService.printAllRequest();                                           // ВЫВОД ЗАПРОСОВ
-        orderService.printAllOrders();                                              // ВЫВОД ЗАКАЗОВ
+        // ВЫВОД КНИГ
+        requestService.getRequests();                                           // ВЫВОД ЗАПРОСОВ
+        orderService.getOrders();                                                     // ВЫВОД ЗАКАЗОВ
         //Список книг (сортировать по алфавиту, дате издания, цене, наличию на складе)
-        bookService.printBooks(bookService.sortAll("title"));
-        bookService.printBooks(bookService.sortAll("year"));
-        bookService.printBooks(bookService.sortAll("price"));
-        bookService.printBooks(bookService.sortAll("status"));
+        bookService.sort(bookService.getBooks(), "title");
+        bookService.sort(bookService.getBooks(), "year");
+        bookService.sort(bookService.getBooks(), "price");
+        bookService.sort(bookService.getBooks(), "status");
         //Список заказов (сортировать по дате исполнения, цене, статусу)
-        orderService.printOrders(orderService.sortAll("date"));
-        orderService.printOrders(orderService.sortAll("price"));
-        orderService.printOrders(orderService.sortAll("status"));
+        orderService.sort(orderService.getOrders(), "date");
+        orderService.sort(orderService.getOrders(), "price");
+        orderService.sort(orderService.getOrders(), "status");
         //Список запросов на книгу (сортировать по количеству запросов, алфавиту)
-        requestService.printRequest(requestService.sortAll("quantity"));
-        requestService.printRequest(requestService.sortAll("title"));
+        requestService.sort(requestService.getRequests(), "quantity");
+        requestService.sort(requestService.getRequests(), "title");
         //Список выполненных заказов за период времени (сортировать по дате, цене)
         List<Order> completedOrders = orderService.completedOrders(LocalDateTime.now().plusSeconds(70));
-        orderService.printOrders(orderService.sort(completedOrders, "date"));
-        orderService.printOrders(orderService.sort(completedOrders, "price"));
+        orderService.getOrders();
+        orderService.getOrders();
         //Сумму заработанных средств за период времени
         System.out.println(orderService.amountOfIncome(LocalDateTime.now().plusSeconds(70)));
         //Количество выполненных заказов за период времени
         System.out.println(orderService.countOrders(LocalDateTime.now().plusSeconds(70)));
         //Список «залежавшихся» книг не проданы больше чем 6 мес. (сортировать по датепоступления, цене)
-        bookService.printBooks(bookService.unpopularBooks());
+        bookService.unpopularBooks();
         //Посмотреть детали заказа (какие-либо данные заказчика + книги)
         orderService.showDetails(orderService.getOrderById(500000));
         //Посмотреть описание книги
-        bookService.showDescription(bookService.getBookById(100001L));
+        System.out.println(bookService.getBookById(100001L));
     }
 }

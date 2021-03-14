@@ -10,15 +10,18 @@ import by.senla.bookstore.util.MyRandom;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class OrderService implements IOrderService {
     private static OrderService instance;
     private final IOrderDao orderDao = OrderDao.getInstance();
-    List<Order> orders;
     IRequestService requestService = RequestService.getInstance();
     IBookService bookService = BookService.getInstance();
+    List<Order> orders;
 
     private OrderService() {
     }
@@ -73,26 +76,18 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public List<Order> sortAll(String sortBy) {
-        this.orders = orderDao.getAll();
-        return this.sort(orders, sortBy);
-    }
-
-    @Override
     public void create(Order order) {
         order.setOrderStatus(OrderState.HOT);
         orderDao.save(order);
-        Map<Book, Integer> map = order.getBookMap();
-        for (Book b : map.keySet()) {
-            if (b.getStatus() == BookStatus.MISSING) {
-                requestService.sentRequest(new Request(b, map.get(b)));
-            } else if (b.getQuantity() - map.get(b) < 0) {
-                int dif = map.get(b) - b.getQuantity();
-                requestService.sentRequest(new Request(b, dif));
-                bookService.writeOff(b);
-            } else {
-                b.setQuantity(b.getQuantity() - map.get(b));
-            }
+        Book b = order.getOrderedBook();
+        if (b.getStatus() == BookStatus.MISSING) {
+            requestService.createRequest(new Request(b, order.getQuantity()));
+        } else if (b.getQuantity() - order.getQuantity() < 0) {
+            int dif = order.getQuantity() - b.getQuantity();
+            requestService.createRequest(new Request(b, dif));
+            bookService.writeOff(b);
+        } else {
+            b.setQuantity(b.getQuantity() - order.getQuantity());
         }
     }
 
@@ -111,18 +106,15 @@ public class OrderService implements IOrderService {
 
     @Override
     public void cancel(Order order) {
-//        orders = orderDao.getAll();
         orders = orderDao.getAll().stream()
                 .filter(o -> o.getOrderStatus() == OrderState.HOT)
                 .collect(Collectors.toList());
         if (!orders.isEmpty() && orders.contains(order)) {
             order.setOrderStatus(OrderState.CANCELED);
             order.setDate(MyRandom.getDateChangedOrder());
-            Map<Book, Integer> map = order.getBookMap();
-            for (Book b : map.keySet()) {
-                int res = b.getQuantity();
-                b.setQuantity(res + map.get(b));
-            }
+            Book b = order.getOrderedBook();
+            int count = b.getQuantity();
+            b.setQuantity(count + order.getQuantity());
         } else {
             System.out.println("No orders or order is completed.");
         }
@@ -136,31 +128,13 @@ public class OrderService implements IOrderService {
             order.setDate(MyRandom.getDateChangedOrder());
         }
         if (orders.contains(order) && state == OrderState.COMPLETED) {
-            Map<Book, Integer> map = order.getBookMap();
-            for (Book b : map.keySet()) {
-                b.setDateOfLastSale(LocalDateTime.now());
-            }
+            Book b = order.getOrderedBook();
+            b.setDateOfLastSale(LocalDateTime.now());
         }
     }
 
     @Override
-    public void printAllOrders() {
-        orders = orderDao.getAll();
-        System.out.println("######################## ALL ORDERS #######################");
-        if (!orders.isEmpty()) {
-            orderDao.getAll().forEach(System.out::println);
-        } else {
-            System.out.println("Order not found.");
-        }
-        System.out.print("###########################################################\n");
-    }
-
-    @Override
-    public void printOrders(List<Order> orders) {
-        System.out.println("####################### ORDERS ############################");
-        if (!orders.isEmpty()) {
-            orders.forEach(System.out::println);
-        }
-        System.out.print("###########################################################\n");
+    public List<Order> getOrders() {
+        return orderDao.getAll();
     }
 }

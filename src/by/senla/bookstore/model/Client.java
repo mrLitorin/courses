@@ -2,11 +2,8 @@ package by.senla.bookstore.model;
 
 import by.senla.bookstore.util.GeneratorID;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Client extends AEntity {
-    private final List<Order> orderList = new ArrayList<>();
+    private long id;
     private String fullName;
     private int age;
 
@@ -19,8 +16,14 @@ public class Client extends AEntity {
         this.age = age;
     }
 
-    public List<Order> getOrderList() {
-        return orderList;
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
