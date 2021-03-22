@@ -7,12 +7,14 @@ import com.senla.bookshop.model.Book;
 import com.senla.bookshop.model.BookStatus;
 import com.senla.bookshop.model.Request;
 import com.senla.bookshop.model.RequestStatus;
+import com.senla.bookshop.util.PropertiesHandler;
 import exception.ServiceException;
 import org.apache.log4j.Logger;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class RequestService implements IRequestService {
@@ -56,13 +58,15 @@ public class RequestService implements IRequestService {
 
     @Override
     public void addBookOnStock(Book book) {
+        Optional<String> s = PropertiesHandler.getProperties("shop.request.status.enable");
+        boolean isEnabled = Boolean.parseBoolean(s.get());
         List<Request> requestsInProcessing = requestDao.getAll().stream()
                 .filter(request -> request.getStatus() == RequestStatus.IN_PROCESSING)
                 .filter(request -> request.getMissingBook().equals(book))
                 .collect(Collectors.toList());
         if (book != null) {
             requestsInProcessing.forEach(r -> {
-                r.setStatus(RequestStatus.COMPLETED);
+                if (isEnabled) r.setStatus(RequestStatus.COMPLETED);
                 book.setQuantity(r.getQuantity());
                 book.setStatus(BookStatus.ON_SALE);
             });

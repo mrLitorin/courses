@@ -7,6 +7,7 @@ import com.senla.bookshop.dao.BookDao;
 import com.senla.bookshop.dao.RequestDao;
 import com.senla.bookshop.model.Book;
 import com.senla.bookshop.model.BookStatus;
+import com.senla.bookshop.util.PropertiesHandler;
 import exception.DaoException;
 import exception.ServiceException;
 import org.apache.log4j.Logger;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookService implements IBookService {
@@ -69,9 +71,12 @@ public class BookService implements IBookService {
 
     @Override
     public List<Book> unpopularBooks() {
+        Optional<String> s = PropertiesHandler.getProperties("shop.book.amount_of_month");
+        System.out.println(s);
+        int amountOfMonth = Integer.parseInt(s.get());
         LOGGER.info("Selection of books not in demand.");
         books = bookDao.getAll();
-        LocalDateTime halfYears = LocalDateTime.now().minusMonths(6);
+        LocalDateTime halfYears = LocalDateTime.now().minusMonths(amountOfMonth);
         return books.stream()
                 .filter(book -> book.getDateOfLastSale().isBefore(halfYears))
                 .collect(Collectors.toList());
