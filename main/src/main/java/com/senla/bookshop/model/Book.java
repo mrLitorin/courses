@@ -3,11 +3,12 @@ package com.senla.bookshop.model;
 import com.senla.bookshop.util.GeneratorID;
 import com.senla.bookshop.util.MyRandom;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class Book extends AEntity {
+public class Book extends AEntity implements Serializable {
     private long id;
     private String title;
     private String author;

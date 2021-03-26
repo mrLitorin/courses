@@ -14,7 +14,6 @@ public class Order extends AEntity {
     private Client client;
     private OrderState orderStatus;
     private int quantity;
-    private int price;
 
     {
         this.date = MyRandom.getDateOrder();
@@ -47,8 +46,7 @@ public class Order extends AEntity {
     }
 
     public int getPrice() {
-        price = orderedBook.getPrice() * quantity;
-        return price;
+        return orderedBook.getPrice() * quantity;
     }
 
     public LocalDateTime getDate() {

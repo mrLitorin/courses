@@ -38,7 +38,7 @@ public abstract class AbstractDao<T extends AEntity> implements GenericDAO<T> {
         try {
             repository.remove(entity);
         } catch (Exception e) {
-            throw new DaoException("This book is not available.", e);
+            throw new DaoException("This entity is not available.", e);
         }
     }
 

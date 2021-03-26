@@ -12,7 +12,7 @@ import java.util.Properties;
 public class PropertiesHandler {
     private static final Logger LOGGER = Logger.getLogger(PropertiesHandler.class.getSimpleName());
     private static Properties properties;
-    private static final String PATH_TO_PROPERTIES = "src/main/resources/app.properties";
+    private static final String PATH_TO_PROPERTIES = "main/src/main/resources/app.properties";
 
     public PropertiesHandler() {
     }
@@ -22,7 +22,7 @@ public class PropertiesHandler {
             properties = new Properties();
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.error("e");
+            LOGGER.error(e);
             throw new ServiceException("Filed to read file: " + PATH_TO_PROPERTIES);
         }
     }

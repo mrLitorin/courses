@@ -1,6 +1,8 @@
 package com.senla.bookshop.model;
 
-public abstract class AEntity {
+import java.io.Serializable;
+
+public abstract class AEntity implements Serializable {
 
     public abstract Long getId();
 
