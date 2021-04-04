@@ -1,0 +1,179 @@
+2021-04-04 20:17:21 ERROR PropertiesHandler:26 - e
+2021-04-04 20:30:55 ERROR Book:33 - Book by ID #1000011 not found.
+2021-04-04 20:30:55 ERROR BookService:91 - Book #1000011 not found.
+2021-04-04 22:10:43 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 345345 out of bounds for length 7
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:33)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:10:58 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 44 out of bounds for length 7
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:33)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:10:58 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 345 out of bounds for length 7
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:33)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:38:27 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 12313 out of bounds for length 4
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:34)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:38:30 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 111 out of bounds for length 7
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:34)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:38:32 ERROR Navigator:32 - Out of range.
+java.lang.IndexOutOfBoundsException: Index 11 out of bounds for length 7
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:359)
+	at java.base/java.util.ArrayList.get(ArrayList.java:427)
+	at com.senla.ui.menu.Navigator.navigate(Navigator.java:28)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:34)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:38:35 ERROR Facade:245 - java.io.FileNotFoundException: "Store\src\main\java\com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:38:35 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:246)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:51:46 ERROR Facade:244 - java.io.FileNotFoundException: "Store\src\main\java\com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:51:46 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:54:28 ERROR Facade:244 - java.io.FileNotFoundException: "com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:54:28 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:55:18 ERROR Facade:244 - java.io.FileNotFoundException: "src\main\java\com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:55:18 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:55:51 ERROR Facade:244 - java.io.FileNotFoundException: "src\main\java\com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:55:51 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:56:36 ERROR Facade:244 - java.io.FileNotFoundException: "D:AllProjectsSenla.incBookStoreStoresrcmainjavacomsenlastoreserialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:56:36 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:57:27 ERROR Facade:244 - java.io.FileNotFoundException: "D:\AllProjects\Senla.inc\BookStore\Store\src\main\java\com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:57:27 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 22:58:00 ERROR Facade:244 - java.io.FileNotFoundException: "com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 22:58:00 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:00:52 ERROR Facade:244 - java.io.FileNotFoundException: "com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 23:00:52 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:01:20 ERROR Facade:244 - java.io.FileNotFoundException: Optional["com\senla\store\serialization\books.out"] (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 23:01:20 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:02:26 ERROR Facade:244 - java.io.FileNotFoundException: "com\senla\store\serialization\books.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 23:02:26 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:02:51 ERROR Facade:244 - java.io.FileNotFoundException: com\senla\store\serialization\books.out (Системе не удается найти указанный путь)
+2021-04-04 23:02:51 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:03:24 ERROR Facade:244 - java.io.NotSerializableException: com.senla.store.model.Book
+2021-04-04 23:03:24 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:04:09 ERROR Facade:244 - java.io.FileNotFoundException: Store\src\main\java\com\senla\store\serializationorder.out" (Синтаксическая ошибка в имени файла, имени папки или метке тома)
+2021-04-04 23:04:09 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:04:25 ERROR Facade:244 - java.io.NotSerializableException: com.senla.store.model.Order
+2021-04-04 23:04:25 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-04 23:05:01 ERROR Facade:244 - java.io.NotSerializableException: com.senla.store.model.Client
+2021-04-04 23:05:01 ERROR MenuController:41 - End of programme.
+com.senla.exception.ServiceException: Serialization error.
+	at com.senla.store.Facade.serializableDao(Facade.java:245)
+	at com.senla.ui.action.SerializableDB.execute(SerializableDB.java:19)
+	at com.senla.ui.menu.MenuController.run(MenuController.java:38)
+	at com.senla.ui.ProgConsole.main(ProgConsole.java:14)
+2021-04-05 13:55:00 ERROR Book:70 - Store\src\main\java\com\senla\store\serialization\books.out (Не удается найти указанный файл)
+2021-04-05 13:55:00 ERROR BookService:43 - File not found or deserialization failed.
+2021-04-05 13:55:00 ERROR Facade:256 - com.senla.exception.ServiceException: com.senla.exception.DaoException: Deserialization books failed.
+2021-04-05 13:55:00 ERROR MenuController:33 - Deserialization failed.

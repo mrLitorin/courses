@@ -1,0 +1,10 @@
+/.idea/
+/DI/target/
+/Store/pom.xml
+/Store/Store.iml
+/pom.xml
+/BookStore.iml
+/UI/target/
+/UI/pom.xml
+/UI/UI.iml
+/.gitignore
